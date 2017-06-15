@@ -1,0 +1,22 @@
+{
+  "name": "add-dock-spacer",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "add-dock-spacer": "index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^7.0.31",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "@unumux/ux-questions": "^1.1.0"
+  }
+}
