@@ -2,6 +2,8 @@
 
 Simple script to add spaces to your macOS Dock
 
+![add-dock-spacer](dock.png)
+
 ## Installation
 
 - Install with npm `npm install -g add-dock-spacer`
