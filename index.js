@@ -18,6 +18,8 @@ function main() {
             console.log("This tool only works on macOS!");
             process.exit();
         }
+        // ask the user which side the spacers should be added to
+        const side = yield questions.list("Which side should the spacer be added to?", ["Left", "Right"]);
         // ask the user how many spacers to create
         const numberOfSpacersInput = yield questions.text("How many dock spacers would you like to create?", "1");
         const numberOfSpacers = parseInt(numberOfSpacersInput);
@@ -28,14 +30,15 @@ function main() {
         }
         // run the createSpacer function {numberOfSpacers} times
         for (let i = 0; i < numberOfSpacers; i++) {
-            yield createSpacer();
+            yield createSpacer(side);
         }
         // restart the dock process
         restartDock();
     });
 }
-function createSpacer() {
-    const cmd = `defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'`;
+function createSpacer(side) {
+    const dockArea = side === "Left" ? "persistent-apps" : "persistent-others";
+    const cmd = `defaults write com.apple.dock ${dockArea} -array-add '{tile-data={}; tile-type="spacer-tile";}'`;
     // promisify our exec cmd
     return new Promise((resolve, reject) => {
         child_process_1.exec(cmd, (err, stdout) => {

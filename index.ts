@@ -12,6 +12,9 @@ async function main() {
         process.exit();
     }
 
+    // ask the user which side the spacers should be added to
+    const side = await questions.list("Which side should the spacer be added to?", ["Left", "Right"]);
+
     // ask the user how many spacers to create
     const numberOfSpacersInput: string = await questions.text("How many dock spacers would you like to create?", "1");
     const numberOfSpacers = parseInt(numberOfSpacersInput);
@@ -24,16 +27,17 @@ async function main() {
 
     // run the createSpacer function {numberOfSpacers} times
     for(let i = 0; i < numberOfSpacers; i++) {
-        await createSpacer();
+        await createSpacer(side);
     }
 
     // restart the dock process
     restartDock();
 }
 
-function createSpacer() {
-    const cmd = `defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'`;
-
+function createSpacer(side: "Left" | "Right") {
+    const dockArea = side === "Left" ? "persistent-apps" : "persistent-others";
+    const cmd = `defaults write com.apple.dock ${dockArea} -array-add '{tile-data={}; tile-type="spacer-tile";}'`;
+    
     // promisify our exec cmd
     return new Promise((resolve, reject) => {
          exec(cmd, (err, stdout) => {
